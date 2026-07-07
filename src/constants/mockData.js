@@ -63,13 +63,23 @@ export const leaderboard = {
   league: 'Gold League',
   resetsIn: '2 days',
   users: [
-    { rank: 1, name: 'Priya Sharma', xp: 3120 },
-    { rank: 2, name: 'Rohan Mehta', xp: 2870 },
-    { rank: 3, name: 'Abeer Katyal', xp: 2450, isCurrentUser: true },
-    { rank: 4, name: 'Sana Iqbal', xp: 2210 },
-    { rank: 5, name: 'Karan Verma', xp: 1980 },
-    { rank: 6, name: 'Neha Gupta', xp: 1740 },
+    { id: '1', rank: 1, name: 'Priya Sharma', xp: 3120, streak: 21, lessonsCompleted: 58 },
+    { id: '2', rank: 2, name: 'Rohan Mehta', xp: 2870, streak: 14, lessonsCompleted: 49 },
+    { id: '3', rank: 3, name: 'Abeer Katyal', xp: 2450, streak: 7, lessonsCompleted: 34, isCurrentUser: true },
+    { id: '4', rank: 4, name: 'Sana Iqbal', xp: 2210, streak: 9, lessonsCompleted: 31 },
+    { id: '5', rank: 5, name: 'Karan Verma', xp: 1980, streak: 5, lessonsCompleted: 27 },
+    { id: '6', rank: 6, name: 'Neha Gupta', xp: 1740, streak: 3, lessonsCompleted: 22 },
   ],
+};
+
+// One deterministic mock price series per symbol — a static array (rather
+// than Math.random()) keeps screenshots and behavior reproducible across
+// reloads while still looking like a real, wiggly price chart.
+export const priceHistory = {
+  RELIANCE: [2410, 2432, 2405, 2450, 2480, 2465, 2500, 2530, 2510, 2545, 2560, 2540, 2575, 2590, 2610.5],
+  TCS: [3650, 3680, 3660, 3700, 3690, 3720, 3705, 3680, 3660, 3630, 3600, 3580, 3560, 3550, 3540.2],
+  HDFCBANK: [1560, 1555, 1570, 1585, 1580, 1595, 1600, 1590, 1605, 1610, 1598, 1612, 1605, 1615, 1618.75],
+  INFY: [1430, 1425, 1440, 1450, 1445, 1460, 1455, 1470, 1465, 1458, 1462, 1470, 1468, 1460, 1465.9],
 };
 
 export const achievements = [
@@ -79,10 +89,11 @@ export const achievements = [
   { id: 'a4', icon: 'ribbon', label: '30-Day Streak', unlocked: false },
 ];
 
-export const settingsMenu = [
-  { icon: 'moon-outline', title: 'Dark Mode', subtitle: 'Off' },
-  { icon: 'notifications-outline', title: 'Notifications' },
-  { icon: 'language-outline', title: 'Language', subtitle: 'English' },
-  { icon: 'shield-checkmark-outline', title: 'Privacy & Security' },
-  { icon: 'help-circle-outline', title: 'Help & Support' },
+// Dark Mode and Language are built directly in the Profile screen since
+// they're bound to live store state, not static content — this list is
+// just the remaining settings rows that don't need interactive state yet.
+export const staticSettingsMenu = [
+  { icon: 'notifications-outline', titleKey: 'profile.notifications' },
+  { icon: 'shield-checkmark-outline', titleKey: 'profile.privacy' },
+  { icon: 'help-circle-outline', titleKey: 'profile.help' },
 ];

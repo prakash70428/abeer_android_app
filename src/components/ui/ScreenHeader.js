@@ -4,9 +4,11 @@ export function ScreenHeader({ title, subtitle, right }) {
   return (
     <View className="flex-row items-start justify-between">
       <View className="flex-1 pr-3">
-        <Text className="text-3xl font-bold text-gray-900">{title}</Text>
+        <Text className="text-3xl font-bold text-gray-900 dark:text-gray-50">{title}</Text>
         {subtitle ? (
-          <Text className="mt-1 text-base font-regular text-gray-500">{subtitle}</Text>
+          <Text className="mt-1 text-base font-regular text-gray-500 dark:text-gray-400">
+            {subtitle}
+          </Text>
         ) : null}
       </View>
       {right}

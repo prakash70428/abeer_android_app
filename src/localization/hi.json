@@ -1,0 +1,51 @@
+{
+  "tabs": {
+    "learn": "सीखें",
+    "portfolio": "पोर्टफोलियो",
+    "leaderboard": "लीडरबोर्ड",
+    "profile": "प्रोफ़ाइल"
+  },
+  "learn": {
+    "subtitle": "जहां से छोड़ा था वहीं से जारी रखें",
+    "dayStreak": "दिन की स्ट्रीक",
+    "totalXp": "कुल XP",
+    "lessons": "पाठ",
+    "yourPath": "आपका पथ"
+  },
+  "portfolio": {
+    "subtitle": "आपकी वर्चुअल होल्डिंग्स",
+    "netWorth": "कुल संपत्ति",
+    "overall": "कुल मिलाकर",
+    "invested": "निवेशित",
+    "cashBalance": "नकद शेष",
+    "holdings": "होल्डिंग्स",
+    "yourHolding": "आपकी होल्डिंग",
+    "quantity": "मात्रा",
+    "avgPrice": "औसत मूल्य",
+    "currentValue": "वर्तमान मूल्य",
+    "buyMore": "और खरीदें",
+    "sell": "बेचें"
+  },
+  "leaderboard": {
+    "resetsIn": "रीसेट होगा",
+    "you": "आप",
+    "playerProfile": "खिलाड़ी प्रोफ़ाइल",
+    "totalXp": "कुल XP",
+    "dayStreak": "दिन की स्ट्रीक",
+    "lessons": "पाठ"
+  },
+  "profile": {
+    "achievements": "उपलब्धियां",
+    "settings": "सेटिंग्स",
+    "darkMode": "डार्क मोड",
+    "language": "भाषा",
+    "notifications": "सूचनाएं",
+    "privacy": "गोपनीयता और सुरक्षा",
+    "help": "सहायता और समर्थन",
+    "light": "लाइट",
+    "dark": "डार्क",
+    "system": "सिस्टम",
+    "english": "English",
+    "hindi": "हिंदी"
+  }
+}

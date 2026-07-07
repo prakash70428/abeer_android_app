@@ -9,8 +9,8 @@ export function StatTile({ icon, iconColor = '#5B3BDB', value, label }) {
   return (
     <Card className="flex-1 items-start gap-2" elevation="sm">
       <Ionicons name={icon} size={20} color={iconColor} />
-      <Text className="text-xl font-bold text-gray-900">{value}</Text>
-      <Text className="text-xs font-medium text-gray-500">{label}</Text>
+      <Text className="text-xl font-bold text-gray-900 dark:text-gray-50">{value}</Text>
+      <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">{label}</Text>
     </Card>
   );
 }

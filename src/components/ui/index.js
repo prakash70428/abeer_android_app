@@ -7,3 +7,5 @@ export { StatTile } from './StatTile';
 export { ScreenHeader } from './ScreenHeader';
 export { SectionHeader } from './SectionHeader';
 export { ListRow } from './ListRow';
+export { OptionSheet } from './OptionSheet';
+export { AnimatedPressable } from './AnimatedPressable';

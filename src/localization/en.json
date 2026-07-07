@@ -1,0 +1,51 @@
+{
+  "tabs": {
+    "learn": "Learn",
+    "portfolio": "Portfolio",
+    "leaderboard": "Leaderboard",
+    "profile": "Profile"
+  },
+  "learn": {
+    "subtitle": "Continue where you left off",
+    "dayStreak": "Day streak",
+    "totalXp": "Total XP",
+    "lessons": "Lessons",
+    "yourPath": "Your Path"
+  },
+  "portfolio": {
+    "subtitle": "Your virtual holdings",
+    "netWorth": "Net worth",
+    "overall": "overall",
+    "invested": "Invested",
+    "cashBalance": "Cash balance",
+    "holdings": "Holdings",
+    "yourHolding": "Your Holding",
+    "quantity": "Quantity",
+    "avgPrice": "Avg. Price",
+    "currentValue": "Current Value",
+    "buyMore": "Buy More",
+    "sell": "Sell"
+  },
+  "leaderboard": {
+    "resetsIn": "resets in",
+    "you": "You",
+    "playerProfile": "Player Profile",
+    "totalXp": "Total XP",
+    "dayStreak": "Day streak",
+    "lessons": "Lessons"
+  },
+  "profile": {
+    "achievements": "Achievements",
+    "settings": "Settings",
+    "darkMode": "Dark Mode",
+    "language": "Language",
+    "notifications": "Notifications",
+    "privacy": "Privacy & Security",
+    "help": "Help & Support",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "english": "English",
+    "hindi": "हिंदी"
+  }
+}

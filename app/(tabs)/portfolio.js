@@ -1,28 +1,32 @@
 import { ScrollView, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScreenHeader, SectionHeader, Card, Badge } from '../../src/components/ui';
+import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { ScreenHeader, SectionHeader, Card, Badge, AnimatedPressable } from '../../src/components/ui';
 import { portfolio } from '../../src/constants/mockData';
 import { computePortfolioSummary } from '../../src/utils/portfolio';
 import { formatCurrency, formatSigned } from '../../src/utils/format';
 
 export default function PortfolioScreen() {
+  const { t } = useTranslation();
+  const router = useRouter();
   const summary = computePortfolioSummary(portfolio);
   const isPositive = summary.totalGain >= 0;
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={['top']}>
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={['top']}>
       <ScrollView
         className="flex-1 px-screenX"
         contentContainerClassName="pb-10"
         showsVerticalScrollIndicator={false}
       >
         <View className="pt-screenY">
-          <ScreenHeader title="Portfolio" subtitle="Your virtual holdings" />
+          <ScreenHeader title={t('tabs.portfolio')} subtitle={t('portfolio.subtitle')} />
         </View>
 
         <Card className="mt-5" elevation="md">
-          <Text className="text-sm font-medium text-gray-500">Net worth</Text>
-          <Text className="mt-1 text-4xl font-bold text-gray-900">
+          <Text className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('portfolio.netWorth')}</Text>
+          <Text className="mt-1 text-4xl font-bold text-gray-900 dark:text-gray-50">
             {formatCurrency(summary.netWorth)}
           </Text>
           <View className="mt-3 flex-row items-center gap-2">
@@ -30,19 +34,19 @@ export default function PortfolioScreen() {
               {formatSigned(summary.totalGainPct, 1)}%
             </Badge>
             <Text className="text-sm font-medium text-gray-400">
-              {formatSigned(summary.totalGain)} overall
+              {formatSigned(summary.totalGain)} {t('portfolio.overall')}
             </Text>
           </View>
-          <View className="mt-4 flex-row justify-between border-t border-gray-100 pt-4">
+          <View className="mt-4 flex-row justify-between border-t border-gray-100 pt-4 dark:border-gray-700">
             <View>
-              <Text className="text-xs font-medium text-gray-500">Invested</Text>
-              <Text className="mt-0.5 text-base font-semibold text-gray-900">
+              <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('portfolio.invested')}</Text>
+              <Text className="mt-0.5 text-base font-semibold text-gray-900 dark:text-gray-50">
                 {formatCurrency(summary.totalInvested)}
               </Text>
             </View>
             <View>
-              <Text className="text-xs font-medium text-gray-500">Cash balance</Text>
-              <Text className="mt-0.5 text-base font-semibold text-gray-900">
+              <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('portfolio.cashBalance')}</Text>
+              <Text className="mt-0.5 text-base font-semibold text-gray-900 dark:text-gray-50">
                 {formatCurrency(portfolio.cashBalance)}
               </Text>
             </View>
@@ -50,35 +54,40 @@ export default function PortfolioScreen() {
         </Card>
 
         <View className="mt-6">
-          <SectionHeader title="Holdings" />
+          <SectionHeader title={t('portfolio.holdings')} />
         </View>
 
         <View className="mt-3 gap-3">
           {summary.holdings.map((holding) => {
             const positive = holding.gain >= 0;
             return (
-              <Card key={holding.symbol} elevation="sm" className="flex-row items-center justify-between">
-                <View className="flex-1">
-                  <Text className="text-base font-bold text-gray-900">{holding.symbol}</Text>
-                  <Text className="text-xs font-regular text-gray-500">
-                    {holding.qty} shares · avg {formatCurrency(holding.avgPrice)}
-                  </Text>
-                </View>
-                <View className="items-end">
-                  <Text className="text-base font-semibold text-gray-900">
-                    {formatCurrency(holding.currentValue)}
-                  </Text>
-                  <Text
-                    className={
-                      positive
-                        ? 'text-xs font-semibold text-success-600'
-                        : 'text-xs font-semibold text-danger-600'
-                    }
-                  >
-                    {formatSigned(holding.gainPct, 1)}%
-                  </Text>
-                </View>
-              </Card>
+              <AnimatedPressable
+                key={holding.symbol}
+                onPress={() => router.push(`/portfolio/${holding.symbol}`)}
+              >
+                <Card elevation="sm" className="flex-row items-center justify-between">
+                  <View className="flex-1">
+                    <Text className="text-base font-bold text-gray-900 dark:text-gray-50">{holding.symbol}</Text>
+                    <Text className="text-xs font-regular text-gray-500 dark:text-gray-400">
+                      {holding.qty} shares · avg {formatCurrency(holding.avgPrice)}
+                    </Text>
+                  </View>
+                  <View className="items-end">
+                    <Text className="text-base font-semibold text-gray-900 dark:text-gray-50">
+                      {formatCurrency(holding.currentValue)}
+                    </Text>
+                    <Text
+                      className={
+                        positive
+                          ? 'text-xs font-semibold text-success-600 dark:text-success-400'
+                          : 'text-xs font-semibold text-danger-600 dark:text-danger-400'
+                      }
+                    >
+                      {formatSigned(holding.gainPct, 1)}%
+                    </Text>
+                  </View>
+                </Card>
+              </AnimatedPressable>
             );
           })}
         </View>
