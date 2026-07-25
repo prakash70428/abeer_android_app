@@ -58,6 +58,10 @@ export default function RootLayout() {
             name="portfolio/[symbol]"
             options={{ headerShown: true, headerBackTitle: 'Back' }}
           />
+          <Stack.Screen
+            name="lesson/[id]"
+            options={{ headerShown: true, headerBackTitle: 'Back' }}
+          />
         </Stack>
       </SafeAreaProvider>
     </GestureHandlerRootView>

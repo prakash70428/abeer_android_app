@@ -1,6 +1,7 @@
 import { ScrollView, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import {
@@ -10,6 +11,7 @@ import {
   Card,
   Badge,
   ProgressBar,
+  AnimatedPressable,
 } from '../../src/components/ui';
 import { currentUser, learningPath, dailyChallenge } from '../../src/constants/mockData';
 
@@ -21,6 +23,7 @@ const LESSON_STATUS_ICON = {
 
 export default function LearnScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={['top']}>
@@ -70,7 +73,11 @@ export default function LearnScreen() {
                   {unit.lessons.map((lesson) => {
                     const iconMeta = LESSON_STATUS_ICON[lesson.status];
                     return (
-                      <View key={lesson.id} className="flex-row items-center gap-3">
+                      <AnimatedPressable
+                        key={lesson.id}
+                        onPress={() => router.push(`/lesson/${lesson.id}`)}
+                        className="flex-row items-center gap-3"
+                      >
                         <Ionicons name={iconMeta.name} size={20} color={iconMeta.color} />
                         <Text
                           className={
@@ -82,7 +89,7 @@ export default function LearnScreen() {
                           {lesson.title}
                         </Text>
                         <Text className="text-xs font-semibold text-gray-400">+{lesson.xp} XP</Text>
-                      </View>
+                      </AnimatedPressable>
                     );
                   })}
                 </View>
