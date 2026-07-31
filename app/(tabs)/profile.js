@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { SectionHeader, Card, Avatar, ListRow, OptionSheet } from '../../src/components/ui';
 import { currentUser, achievements, staticSettingsMenu } from '../../src/constants/mockData';
@@ -10,6 +11,7 @@ import { useLocaleStore } from '../../src/store/useLocaleStore';
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { mode, setMode } = useThemeStore();
   const { language, setLanguage } = useLocaleStore();
   const [activeSheet, setActiveSheet] = useState(null); // null | 'theme' | 'language'
@@ -108,7 +110,7 @@ export default function ProfileScreen() {
               key={item.titleKey}
               left={<Ionicons name={item.icon} size={20} color="#5B3BDB" />}
               title={t(item.titleKey)}
-              onPress={() => {}}
+              onPress={() => router.push(item.route)}
               className={index !== staticSettingsMenu.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''}
             />
           ))}

@@ -62,6 +62,18 @@ export default function RootLayout() {
             name="lesson/[id]"
             options={{ headerShown: true, headerBackTitle: 'Back' }}
           />
+          <Stack.Screen
+            name="settings/notifications"
+            options={{ headerShown: true, headerBackTitle: 'Back' }}
+          />
+          <Stack.Screen
+            name="settings/privacy"
+            options={{ headerShown: true, headerBackTitle: 'Back' }}
+          />
+          <Stack.Screen
+            name="settings/help"
+            options={{ headerShown: true, headerBackTitle: 'Back' }}
+          />
         </Stack>
       </SafeAreaProvider>
     </GestureHandlerRootView>

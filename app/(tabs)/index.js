@@ -14,6 +14,8 @@ import {
   AnimatedPressable,
 } from '../../src/components/ui';
 import { currentUser, learningPath, dailyChallenge } from '../../src/constants/mockData';
+import { useProgressStore } from '../../src/store/useProgressStore';
+import { getLessonStatus, getUnitProgress } from '../../src/utils/learningPath';
 
 const LESSON_STATUS_ICON = {
   completed: { name: 'checkmark-circle', color: '#22B858' },
@@ -24,6 +26,7 @@ const LESSON_STATUS_ICON = {
 export default function LearnScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const completedLessonIds = useProgressStore((state) => state.completedLessonIds);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={['top']}>
@@ -59,43 +62,51 @@ export default function LearnScreen() {
         </View>
 
         <View className="mt-3 gap-4">
-          {learningPath.map((unit, index) => (
-            <Animated.View key={unit.id} entering={FadeInDown.duration(400).delay(120 + index * 80)}>
-              <Card elevation="sm">
-                <View className="flex-row items-center justify-between">
-                  <Text className="text-base font-bold text-gray-900 dark:text-gray-50">{unit.title}</Text>
-                  <Text className="text-xs font-semibold text-gray-400">
-                    {Math.round(unit.progress * 100)}%
-                  </Text>
-                </View>
-                <ProgressBar progress={unit.progress} className="mt-3" />
-                <View className="mt-4 gap-3">
-                  {unit.lessons.map((lesson) => {
-                    const iconMeta = LESSON_STATUS_ICON[lesson.status];
-                    return (
-                      <AnimatedPressable
-                        key={lesson.id}
-                        onPress={() => router.push(`/lesson/${lesson.id}`)}
-                        className="flex-row items-center gap-3"
-                      >
-                        <Ionicons name={iconMeta.name} size={20} color={iconMeta.color} />
-                        <Text
-                          className={
-                            lesson.status === 'locked'
-                              ? 'flex-1 text-sm font-medium text-gray-400'
-                              : 'flex-1 text-sm font-medium text-gray-800 dark:text-gray-100'
-                          }
+          {learningPath.map((unit, index) => {
+            const unitProgress = getUnitProgress(unit, completedLessonIds);
+            return (
+              <Animated.View key={unit.id} entering={FadeInDown.duration(400).delay(120 + index * 80)}>
+                <Card elevation="sm">
+                  <View className="flex-row items-center justify-between">
+                    <Text className="text-base font-bold text-gray-900 dark:text-gray-50">{unit.title}</Text>
+                    <Text className="text-xs font-semibold text-gray-400">
+                      {Math.round(unitProgress * 100)}%
+                    </Text>
+                  </View>
+                  <ProgressBar progress={unitProgress} className="mt-3" />
+                  <View className="mt-4 gap-3">
+                    {unit.lessons.map((lesson, lessonIndex) => {
+                      const status = getLessonStatus(unit, lessonIndex, completedLessonIds);
+                      const iconMeta = LESSON_STATUS_ICON[status];
+                      const isLocked = status === 'locked';
+                      return (
+                        <AnimatedPressable
+                          key={lesson.id}
+                          onPress={() => {
+                            if (isLocked) return;
+                            router.push(`/lesson/${lesson.id}`);
+                          }}
+                          className="flex-row items-center gap-3"
                         >
-                          {lesson.title}
-                        </Text>
-                        <Text className="text-xs font-semibold text-gray-400">+{lesson.xp} XP</Text>
-                      </AnimatedPressable>
-                    );
-                  })}
-                </View>
-              </Card>
-            </Animated.View>
-          ))}
+                          <Ionicons name={iconMeta.name} size={20} color={iconMeta.color} />
+                          <Text
+                            className={
+                              isLocked
+                                ? 'flex-1 text-sm font-medium text-gray-400'
+                                : 'flex-1 text-sm font-medium text-gray-800 dark:text-gray-100'
+                            }
+                          >
+                            {lesson.title}
+                          </Text>
+                          <Text className="text-xs font-semibold text-gray-400">+{lesson.xp} XP</Text>
+                        </AnimatedPressable>
+                      );
+                    })}
+                  </View>
+                </Card>
+              </Animated.View>
+            );
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>

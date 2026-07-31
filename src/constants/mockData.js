@@ -580,7 +580,7 @@ export const achievements = [
 // they're bound to live store state, not static content — this list is
 // just the remaining settings rows that don't need interactive state yet.
 export const staticSettingsMenu = [
-  { icon: 'notifications-outline', titleKey: 'profile.notifications' },
-  { icon: 'shield-checkmark-outline', titleKey: 'profile.privacy' },
-  { icon: 'help-circle-outline', titleKey: 'profile.help' },
+  { icon: 'notifications-outline', titleKey: 'profile.notifications', route: '/settings/notifications' },
+  { icon: 'shield-checkmark-outline', titleKey: 'profile.privacy', route: '/settings/privacy' },
+  { icon: 'help-circle-outline', titleKey: 'profile.help', route: '/settings/help' },
 ];

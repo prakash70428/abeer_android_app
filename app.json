@@ -1,14 +1,19 @@
 {
   "expo": {
-    "name": "abeer_katyal",
+    "name": "VestEd",
     "slug": "abeer_katyal",
-    "scheme": "finlearn",
+    "scheme": "vested",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abeerkatyal",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -16,7 +21,8 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "package": "com.praky704.abeer_katyal"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -27,6 +33,12 @@
       "expo-font",
       "expo-splash-screen",
       "expo-localization"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c3a1dd7b-2450-4489-a000-90ff6b196412"
+      }
+    }
   }
 }
