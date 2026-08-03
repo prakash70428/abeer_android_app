@@ -24,7 +24,21 @@
     "avgPrice": "Avg. Price",
     "currentValue": "Current Value",
     "buyMore": "Buy More",
-    "sell": "Sell"
+    "sell": "Sell",
+    "noHoldings": "You don't own any stocks yet.",
+    "buyStock": "Buy {{symbol}}",
+    "sellStock": "Sell {{symbol}}",
+    "perShare": "per share",
+    "availableCash": "{{amount}} available",
+    "sharesOwned": "{{qty}} shares owned",
+    "totalCost": "Total cost",
+    "totalProceeds": "Total proceeds",
+    "insufficientFunds": "Not enough cash for this order",
+    "confirmBuy": "Confirm Buy",
+    "confirmSell": "Confirm Sell",
+    "orderPlaced": "Order placed",
+    "boughtMessage": "Bought {{qty}} share(s) of {{symbol}}",
+    "soldMessage": "Sold {{qty}} share(s) of {{symbol}}"
   },
   "leaderboard": {
     "resetsIn": "resets in",

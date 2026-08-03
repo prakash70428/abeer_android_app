@@ -8,4 +8,5 @@ export { ScreenHeader } from './ScreenHeader';
 export { SectionHeader } from './SectionHeader';
 export { ListRow } from './ListRow';
 export { OptionSheet } from './OptionSheet';
+export { TradeSheet } from './TradeSheet';
 export { AnimatedPressable } from './AnimatedPressable';

@@ -3,14 +3,21 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ScreenHeader, SectionHeader, Card, Badge, AnimatedPressable } from '../../src/components/ui';
-import { portfolio } from '../../src/constants/mockData';
+import { getLatestPrice } from '../../src/constants/mockData';
+import { usePortfolioStore } from '../../src/store/usePortfolioStore';
 import { computePortfolioSummary } from '../../src/utils/portfolio';
 import { formatCurrency, formatSigned } from '../../src/utils/format';
 
 export default function PortfolioScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const summary = computePortfolioSummary(portfolio);
+  const holdings = usePortfolioStore((state) => state.holdings);
+  const cashBalance = usePortfolioStore((state) => state.cashBalance);
+  const holdingsWithLtp = holdings.map((holding) => ({
+    ...holding,
+    ltp: getLatestPrice(holding.symbol) ?? holding.avgPrice,
+  }));
+  const summary = computePortfolioSummary({ holdings: holdingsWithLtp, cashBalance });
   const isPositive = summary.totalGain >= 0;
 
   return (
@@ -47,7 +54,7 @@ export default function PortfolioScreen() {
             <View>
               <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('portfolio.cashBalance')}</Text>
               <Text className="mt-0.5 text-base font-semibold text-gray-900 dark:text-gray-50">
-                {formatCurrency(portfolio.cashBalance)}
+                {formatCurrency(cashBalance)}
               </Text>
             </View>
           </View>
@@ -58,6 +65,13 @@ export default function PortfolioScreen() {
         </View>
 
         <View className="mt-3 gap-3">
+          {summary.holdings.length === 0 ? (
+            <Card elevation="sm">
+              <Text className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                {t('portfolio.noHoldings')}
+              </Text>
+            </Card>
+          ) : null}
           {summary.holdings.map((holding) => {
             const positive = holding.gain >= 0;
             return (

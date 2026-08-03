@@ -1,18 +1,25 @@
 import { useState } from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { LineChart } from 'react-native-gifted-charts';
-import { Card, Badge, Button } from '../../src/components/ui';
-import { portfolio, priceHistory } from '../../src/constants/mockData';
+import { Card, Badge, Button, TradeSheet } from '../../src/components/ui';
+import { getLatestPrice, priceHistory } from '../../src/constants/mockData';
+import { usePortfolioStore } from '../../src/store/usePortfolioStore';
 import { formatCurrency, formatSigned } from '../../src/utils/format';
 import { colors } from '../../src/theme';
 
 export default function StockDetailScreen() {
   const { t } = useTranslation();
   const { symbol } = useLocalSearchParams();
-  const holding = portfolio.holdings.find((item) => item.symbol === symbol);
+  const holdings = usePortfolioStore((state) => state.holdings);
+  const cashBalance = usePortfolioStore((state) => state.cashBalance);
+  const buyStock = usePortfolioStore((state) => state.buyStock);
+  const sellStock = usePortfolioStore((state) => state.sellStock);
+
+  const holding = holdings.find((item) => item.symbol === symbol);
+  const ltp = getLatestPrice(symbol) ?? holding?.avgPrice ?? 0;
   const history = priceHistory[symbol] ?? [];
   const chartData = history.map((value) => ({ value }));
   const changePct = history.length > 1 ? ((history[history.length - 1] - history[0]) / history[0]) * 100 : 0;
@@ -22,6 +29,23 @@ export default function StockDetailScreen() {
   // measuring the wrapper ourselves and passing an explicit `width` is the
   // only way to make the chart stop overflowing the card on web.
   const [chartWidth, setChartWidth] = useState(0);
+  const [tradeMode, setTradeMode] = useState(null); // 'buy' | 'sell' | null
+
+  function handleConfirmTrade(qty) {
+    if (tradeMode === 'buy') {
+      const result = buyStock(symbol, holding?.name ?? symbol, qty, ltp);
+      setTradeMode(null);
+      if (result.success) {
+        Alert.alert(t('portfolio.orderPlaced'), t('portfolio.boughtMessage', { qty, symbol }));
+      }
+    } else if (tradeMode === 'sell') {
+      const result = sellStock(symbol, qty, ltp);
+      setTradeMode(null);
+      if (result.success) {
+        Alert.alert(t('portfolio.orderPlaced'), t('portfolio.soldMessage', { qty, symbol }));
+      }
+    }
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-gray-900" edges={['bottom']}>
@@ -36,7 +60,7 @@ export default function StockDetailScreen() {
             {holding?.name ?? symbol}
           </Text>
           <Text className="mt-1 text-4xl font-bold text-gray-900 dark:text-gray-50">
-            {formatCurrency(holding?.ltp ?? 0)}
+            {formatCurrency(ltp)}
           </Text>
           <View className="mt-2">
             <Badge tone={isPositive ? 'success' : 'danger'}>
@@ -104,7 +128,7 @@ export default function StockDetailScreen() {
                   {t('portfolio.currentValue')}
                 </Text>
                 <Text className="mt-0.5 text-base font-semibold text-gray-900 dark:text-gray-50">
-                  {formatCurrency(holding.qty * holding.ltp)}
+                  {formatCurrency(holding.qty * ltp)}
                 </Text>
               </View>
             </View>
@@ -112,14 +136,30 @@ export default function StockDetailScreen() {
         ) : null}
 
         <View className="mt-6 flex-row gap-3">
-          <Button variant="danger" className="flex-1">
+          <Button
+            variant="danger"
+            className="flex-1"
+            disabled={!holding}
+            onPress={() => setTradeMode('sell')}
+          >
             {t('portfolio.sell')}
           </Button>
-          <Button variant="primary" className="flex-1">
+          <Button variant="primary" className="flex-1" onPress={() => setTradeMode('buy')}>
             {t('portfolio.buyMore')}
           </Button>
         </View>
       </ScrollView>
+
+      <TradeSheet
+        visible={tradeMode !== null}
+        mode={tradeMode ?? 'buy'}
+        symbol={symbol}
+        price={ltp}
+        maxQty={tradeMode === 'sell' ? holding?.qty ?? 0 : Math.max(1, Math.floor(cashBalance / (ltp || 1)))}
+        availableCash={cashBalance}
+        onConfirm={handleConfirmTrade}
+        onClose={() => setTradeMode(null)}
+      />
     </SafeAreaView>
   );
 }

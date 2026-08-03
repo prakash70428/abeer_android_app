@@ -569,6 +569,15 @@ export const priceHistory = {
   INFY: [1430, 1425, 1440, 1450, 1445, 1460, 1455, 1470, 1465, 1458, 1462, 1470, 1468, 1460, 1465.9],
 };
 
+// Single source of truth for "current price" — reading the last point of
+// priceHistory instead of a separate ltp field means a sold-out holding
+// (which no longer carries its own ltp) can still be priced when buying it
+// back.
+export function getLatestPrice(symbol) {
+  const history = priceHistory[symbol];
+  return history ? history[history.length - 1] : undefined;
+}
+
 export const achievements = [
   { id: 'a1', icon: 'flame', label: '7-Day Streak', unlocked: true },
   { id: 'a2', icon: 'trophy', label: 'Top 3 Finish', unlocked: true },

@@ -24,7 +24,21 @@
     "avgPrice": "औसत मूल्य",
     "currentValue": "वर्तमान मूल्य",
     "buyMore": "और खरीदें",
-    "sell": "बेचें"
+    "sell": "बेचें",
+    "noHoldings": "आपके पास अभी कोई स्टॉक नहीं है।",
+    "buyStock": "{{symbol}} खरीदें",
+    "sellStock": "{{symbol}} बेचें",
+    "perShare": "प्रति शेयर",
+    "availableCash": "{{amount}} उपलब्ध",
+    "sharesOwned": "{{qty}} शेयर हैं",
+    "totalCost": "कुल लागत",
+    "totalProceeds": "कुल आय",
+    "insufficientFunds": "इस ऑर्डर के लिए पर्याप्त नकद नहीं है",
+    "confirmBuy": "खरीद की पुष्टि करें",
+    "confirmSell": "बिक्री की पुष्टि करें",
+    "orderPlaced": "ऑर्डर पूरा हुआ",
+    "boughtMessage": "{{symbol}} के {{qty}} शेयर खरीदे गए",
+    "soldMessage": "{{symbol}} के {{qty}} शेयर बेचे गए"
   },
   "leaderboard": {
     "resetsIn": "रीसेट होगा",
